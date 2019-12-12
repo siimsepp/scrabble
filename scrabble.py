@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Projekti eesmärgiks on luua programm, mis soovitab kasutajale sõnu, mida Scrabble'i eestikeelses versioonis kasutada.
-# Programm oskab arvutada sõnade väärtust ning arvestab laual kujunenud olukorda, mida kasutaja saab käsureal kirjeldada.
+# Programm oskab arvutada sõnade väärtust ning arvestab laual kujunenud olukorda, mida kasutaja saab HTML-vormi abil kirjeldada.
 # Kasutaja saab määrata, mis tähed on tal käes ning millist tähte lauast ta soovib kasutada. Samuti saab kasutaja määrata,
 # mitu tähte saab sisestada enne lauas olevat tähte ning mitu pärast.
 # Samuti ka seda, kas ja kus asuvad sõnade ja tähtede mitmekordistajad.
@@ -10,18 +10,16 @@ import numpy as np
 import collections
 import json
 
-# Tõmbab andmed failist ja teeb neist listi, mis sisaldab eestikeelseid sõnu.
-
 
 def sonad_failist():
+    # Tõmbab andmed failist ja teeb neist listi, mis sisaldab eestikeelseid sõnu.
     with open('lemmad.txt', encoding='utf-8') as f:
         andmed = f.read().split('\n')
     return andmed
 
-# Tagastab sõnastiku, mille võtmed on parameetri 'sona' tähed ning väärtused vastava tähe esinemisarv sõnas.
-
 
 def tahed_sonastikuna(sona):
+    # Tagastab sõnastiku, mille võtmed on parameetri 'sona' tähed ning väärtused vastava tähe esinemisarv sõnas.
     tahed = [n for n in sona]
     tahtede_sonastik = {}
     for taht in tahed:
@@ -31,11 +29,10 @@ def tahed_sonastikuna(sona):
             tahtede_sonastik[taht] = 1
     return tahtede_sonastik
 
-# Tagastab True, kui esimene sõnastik sisaldub teises. Töötab ka siis, kui väärtused on erinevad. Esimese sõnastiku sama võtme väärtus
-# peab olema väiksem või võrdne teise sõnastiku sama võtme väärtusega.
-
 
 def kas_alamsonastik(sonastik1, sonastik2):
+    # Tagastab True, kui esimene sõnastik sisaldub teises. Töötab ka siis, kui väärtused on erinevad. Esimese sõnastiku sama võtme väärtus
+    # peab olema väiksem või võrdne teise sõnastiku sama võtme väärtusega.
     if not set(sonastik1.keys()).issubset(set(sonastik2.keys())):
         return False
     else:
@@ -44,27 +41,24 @@ def kas_alamsonastik(sonastik1, sonastik2):
                 return False
     return True
 
-# Leiab failist sõnad, mille kõik tähed on mängijal olemas. Tagastab sõnad listina.
-
 
 def sobivad_sonad(tahed_sonana):
+    # Leiab failist sõnad, mille kõik tähed on mängijal olemas. Tagastab sõnad listina.
     sonade_loend = []
     for sona in sonad_failist():
         if kas_alamsonastik(tahed_sonastikuna(sona), tahed_sonastikuna(tahed_sonana)):
             sonade_loend.append(sona)
     return sonade_loend
 
-# Tagastab sõnastiku eestikeelses Scrabble'is kasutatavatest tähtedest ja nende väärtustest.
-
 
 def scrabble_tahtede_vaartused():
+    # Tagastab sõnastiku eestikeelses Scrabble'is kasutatavatest tähtedest ja nende väärtustest.
     return {'a': 1, 'b': 4, 'd': 2, 'e': 1, 'f': 8, 'g': 3, 'h': 4, 'i': 1, 'j': 4, 'k': 1, 'l': 1, 'm': 2, 'n': 2, 'o': 1, 'p': 4, 'r': 2, 's': 1, 'š': 10, 'z': 10, 'ž': 10, 't': 1, 'u': 1, 'v': 3, 'õ': 4, 'ä': 5, 'ö': 6, 'ü': 5}
-
-# Kas tähtedest moodustatav sõna ka tegelikult laua peale ära mahub. See sõltub sellest, millised piirid
-# kasutaja ette andis (mitu tähte enne ja pärast laual olevat tähte saab lauale paigutada).
 
 
 def kas_sona_mahub(sona):
+    # Kas tähtedest moodustatav sõna ka tegelikult laua peale ära mahub. See sõltub sellest, millised piirid
+    # kasutaja ette andis (mitu tähte enne ja pärast laual olevat tähte saab lauale paigutada).
     sona_max_pikkus = mitu_enne + mitu_parast + 1
     if taht_laual not in sona:
         return False
@@ -97,13 +91,11 @@ def sonade_vaartuste_sonastik():
                     # Sõna kordistaja puhul on oluline kordistajate korrutis, sest on võimalik, et ühte sõnasse satub mitu kordistajat.
                     sona_kordistajad = int(np.prod(
                         [1] + sona_kordistajad_parast[:tahti_parast]))
-
                 else:
                     kordistajad = kordistajad_enne[-1*tahti_enne:] + \
                         [1] + kordistajad_parast[:tahti_parast]
                     sona_kordistajad = int(np.prod(
                         sona_kordistajad_enne[-1*tahti_enne:] + [1] + sona_kordistajad_parast[:tahti_parast]))
-
                 # Tähtede eest saadavad punktid
                 punktid = []
                 for taht in sona:

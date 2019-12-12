@@ -1,4 +1,3 @@
-
 <?php
 
 include 'form.php';
@@ -67,7 +66,6 @@ class Avaleht {
 
 }
 
-
 echo Form::printHeader();
 echo Form::printForm();
 
@@ -78,31 +76,14 @@ if (!isset($_POST['submit'])) {
     Avaleht::kirjutaJSON($andmed_kasutajalt);
 }
 
-
-// shell_exec("/opt/lampp/htdocs/scrabble/scrabble.py");
-
-// exec("scrabble");
-shell_exec("./scrabble.py");
-
-// $paring = shell_exec("ls");
-// echo $paring;
-
-
-
-$andmed_pythonist = Avaleht::loeJSON();
-echo Form::HTMLandmetabel($andmed_pythonist);
-
-
-
-
-
-
 // $command = escapeshellcmd('scrabble.py');
 // $output = shell_exec($command);
 // echo $output;
 
+shell_exec("./scrabble.py");
 
-// exec('python scrabble.py');
+$andmed_pythonist = Avaleht::loeJSON();
+echo Form::HTMLandmetabel($andmed_pythonist);
 
 echo Form::printFooter();
 
