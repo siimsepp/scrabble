@@ -1,14 +1,26 @@
 [
     {
-        "tahed_kaes": "askuimr"
+        "tahed_kaes": "abcdefg"
     },
     {
-        "taht_laual": "o"
+        "taht_laual": "h"
     },
     {
-        "kohti_enne": "5"
+        "kohti_enne": "7"
     },
     {
-        "kohti_parast": "6"
+        "kohti_parast": "7"
+    },
+    {
+        "tahe_kord_enne": "1111111"
+    },
+    {
+        "tahe_kord_parast": "1111111"
+    },
+    {
+        "sona_kord_enne": "1111111"
+    },
+    {
+        "sona_kord_parast": "1111111"
     }
 ]

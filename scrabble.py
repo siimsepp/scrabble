@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Projekti eesmärgiks on luua programm, mis soovitab kasutajale sõnu, mida Scrabble'i eestikeelses versioonis kasutada.
 # Programm oskab arvutada sõnade väärtust ning arvestab laual kujunenud olukorda, mida kasutaja saab käsureal kirjeldada.
@@ -71,18 +71,11 @@ def kas_sona_mahub(sona):
     elif sona_max_pikkus < len(sona):
         return False
     else:
-<<<<<<< HEAD:scrabble.py
         # anna laual oleva tahe indeksid sonas
         taht_laual_indeksid_sonas = [
             i for i, x in enumerate(sona) if x == taht_laual]
         for indeks in taht_laual_indeksid_sonas:
             # indeks näitab mitu tähte peab enne mahtuma
-=======
-        # Anna laual oleva tahe indeksid sonas. Neid võib olla mitu, kui käes on sama täht.
-        taht_laual_indeksid_sonas = [i for i, x in enumerate(sona) if x == taht_laual]
-        for indeks in taht_laual_indeksid_sonas:
-        # Indeks näitab mitu tähte peab enne mahtuma.
->>>>>>> 22d9fa22687fb20597e07b89450f317694bd9459:scram.py
             if indeks <= mitu_enne:
                 tahti_sonas_parast_laual_olevat_tahte = len(sona) - indeks - 1
                 if tahti_sonas_parast_laual_olevat_tahte <= mitu_parast:
@@ -115,7 +108,6 @@ def sonade_vaartuste_sonastik():
                 punktid = []
                 for taht in sona:
                     punktid.append(scrabble_tahtede_vaartused()[taht])
-<<<<<<< HEAD:scrabble.py
                 # print(indeks, sona, kordistajad, sona_kordistajad)
                 # print('Punktid: ', punktid)
                 tahtede_vaartus_kordistajatega = [
@@ -126,14 +118,6 @@ def sonade_vaartuste_sonastik():
                 # print('Sõna väärtus kokku:', sona_vaartus_kokku)
 
                 # Mõnikord saab sama sõna moodustada erinevat moodi. Näiteks kui käes on sama täht, mis lauas.
-=======
-                tahtede_vaartus_kordistajatega = [a * b for a, b in zip(kordistajad, punktid)]
-                sona_vaartus_kokku = sum(tahtede_vaartus_kordistajatega) * sona_kordistajad
-                # print(tahtede_vaartus_kordistajatega)
-                # print('Sõna väärtus kokku:', sona_vaartus_kokku)
-
-                # Mõnikord saab sama sõna moodustada erinevat moodi. Näiteks, kui käes on sama täht, mis lauas. 
->>>>>>> 22d9fa22687fb20597e07b89450f317694bd9459:scram.py
                 # Seetõttu on järgnevad neli rida vajalikud, et sõnastikku saaks see variant sõnast, mille eest saab kõige rohkem punkte.
                 if sona not in sonad_vaartused_sonastik:
                     sonad_vaartused_sonastik[sona] = sona_vaartus_kokku
@@ -141,56 +125,60 @@ def sonade_vaartuste_sonastik():
                     sonad_vaartused_sonastik[sona] = sona_vaartus_kokku
     return sonad_vaartused_sonastik
 
-<<<<<<< HEAD:scrabble.py
 
 def loeJSON():
-    with open('scrabble_sisend.json', 'r') as f:
+    with open('scrabble_sisend.json', 'r', encoding='UTF-8') as f:
         andmed_sisse = json.load(f)
     tahed_kaes = andmed_sisse[0]['tahed_kaes']
     taht_laual = andmed_sisse[1]['taht_laual']
     kohti_enne = int(andmed_sisse[2]['kohti_enne'])
     kohti_parast = int(andmed_sisse[3]['kohti_parast'])
-    return (tahed_kaes, taht_laual, kohti_enne, kohti_parast)
+    kordistajad_enne = andmed_sisse[4]['tahe_kord_enne']
+    kordistajad_parast = andmed_sisse[5]['tahe_kord_parast']
+    sona_kordistajad_enne = andmed_sisse[6]['sona_kord_enne']
+    sona_kordistajad_parast = andmed_sisse[7]['sona_kord_parast']
+    return (tahed_kaes, taht_laual, kohti_enne, kohti_parast, kordistajad_enne, kordistajad_parast, sona_kordistajad_enne, sona_kordistajad_parast)
 
 
-def kirjutaJSON():
-    andmed_kirjutamiseks = sonade_vaartuste_sonastik()
-    json.dump(andmed_kirjutamiseks, open('scrabble_tulemus.json', 'w'))
+def kirjutaJSON(andmed):
+    # andmed_kirjutamiseks = sonade_vaartuste_sonastik()
+    json.dump(dict(andmed), open(
+        'scrabble_tulemus.json', 'w', encoding='UTF-8'))
 
 
-tahed_kaes = loeJSON()[0]
-taht_laual = loeJSON()[1]
-mitu_enne = loeJSON()[2]
-mitu_parast = loeJSON()[3]
+andmed_sisse = loeJSON()
 
-kordistajad_enne = [1, 1, 2, 1, 1, 1, 2]
-kordistajad_parast = [2, 1, 1, 1, 2, 1, 1]
-sona_kordistajad_enne = [1, 1, 1, 1, 1, 1, 1]
-sona_kordistajad_parast = [1, 1, 1, 1, 1, 1, 1]
+tahed_kaes = andmed_sisse[0]
+taht_laual = andmed_sisse[1]
+mitu_enne = andmed_sisse[2]
+mitu_parast = andmed_sisse[3]
+kordistajad_enne0 = andmed_sisse[4]
+kordistajad_parast0 = andmed_sisse[5]
+sona_kordistajad_enne0 = andmed_sisse[6]
+sona_kordistajad_parast0 = andmed_sisse[7]
 
-=======
-tahed_kaes = 'telkuta'
-taht_laual = 'e'
-mitu_enne = 7
-mitu_parast = 7
-kordistajad_enne = [1,1,2,1,1,1,2]
-kordistajad_parast = [2,1,1,1,2,1,1]
-sona_kordistajad_enne = [1,1,1,1,1,1,1]
-sona_kordistajad_parast = [1,1,1,1,1,1,1]
-  
->>>>>>> 22d9fa22687fb20597e07b89450f317694bd9459:scram.py
-# Leiab viis suurima punktide arvuga võtit sõnastikust
+kordistajad_enne = [int(n) for n in kordistajad_enne0]
+kordistajad_parast = [int(n) for n in kordistajad_parast0]
+sona_kordistajad_enne = [int(n) for n in sona_kordistajad_enne0]
+sona_kordistajad_parast = [int(n) for n in sona_kordistajad_parast0]
+
+
+# Leiab kümme suurima punktide arvuga võtit sõnastikust.
 loendur = collections.Counter(sonade_vaartuste_sonastik())
-suurimate_punktidega = loendur.most_common(5)
+suurimate_punktidega = loendur.most_common(10)
 for n in suurimate_punktidega:
     print(f'{n[0]}: {n[1]}')
 print(suurimate_punktidega)
 
-print(sobivad_sonad(tahed_kaes+taht_laual))
+kirjutaJSON(suurimate_punktidega)
+
+# print(dict(suurimate_punktidega))
+
+
+# print(sobivad_sonad(tahed_kaes+taht_laual))
 # print(tahed_kaes+taht_laual)
 # print(tahed_sonastikuna(tahed_kaes+taht_laual))
 # print(sonad_failist())
 
 
-print(sonade_vaartuste_sonastik())
-kirjutaJSON()
+# print(sonade_vaartuste_sonastik())

@@ -1,7 +1,7 @@
+
 <?php
 
 include 'form.php';
-include 'model.php';
 
 class Avaleht {
 
@@ -45,15 +45,32 @@ class Avaleht {
                 $kohti_parast = self::testSisend($_POST["kohti_parast"]);
                 array_push($jsonData, ['kohti_parast' => $kohti_parast]);
             }
+            if (isset($_POST["tahe_kord_enne"])) {
+                $tahe_kord_enne = self::testSisend($_POST["tahe_kord_enne"]);
+                array_push($jsonData, ['tahe_kord_enne' => $tahe_kord_enne]);
+            }
+            if (isset($_POST["tahe_kord_parast"])) {
+                $tahe_kord_parast = self::testSisend($_POST["tahe_kord_parast"]);
+                array_push($jsonData, ['tahe_kord_parast' => $tahe_kord_parast]);
+            }
+            if (isset($_POST["sona_kord_enne"])) {
+                $sona_kord_enne = self::testSisend($_POST["sona_kord_enne"]);
+                array_push($jsonData, ['sona_kord_enne' => $sona_kord_enne]);
+            }
+            if (isset($_POST["sona_kord_parast"])) {
+                $sona_kord_parast = self::testSisend($_POST["sona_kord_parast"]);
+                array_push($jsonData, ['sona_kord_parast' => $sona_kord_parast]);
+            }
         }
         return $jsonData;
     }
 
 }
 
+
 echo Form::printHeader();
 echo Form::printForm();
-echo Form::printFooter();
+
 
 if (!isset($_POST['submit'])) {
     $andmed_kasutajalt = Avaleht::kasutajaAndmeteMassiiv();
@@ -62,11 +79,20 @@ if (!isset($_POST['submit'])) {
 }
 
 
-
 // shell_exec("/opt/lampp/htdocs/scrabble/scrabble.py");
 
-exec("scrabble");
+// exec("scrabble");
+shell_exec("./scrabble.py");
+
 // $paring = shell_exec("ls");
+// echo $paring;
+
+
+
+$andmed_pythonist = Avaleht::loeJSON();
+echo Form::HTMLandmetabel($andmed_pythonist);
+
+
 
 
 
@@ -78,6 +104,7 @@ exec("scrabble");
 
 // exec('python scrabble.py');
 
+echo Form::printFooter();
 
 ?>
 
