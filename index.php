@@ -63,7 +63,6 @@ class Avaleht {
         }
         return $jsonData;
     }
-
 }
 
 echo Form::printHeader();
@@ -72,18 +71,22 @@ echo Form::printForm();
 
 if (!isset($_POST['submit'])) {
     $andmed_kasutajalt = Avaleht::kasutajaAndmeteMassiiv();
-    // print_r($andmed_kasutajalt);
     Avaleht::kirjutaJSON($andmed_kasutajalt);
+    exec("/usr/bin/python3.6 scrabble.py");
+
+
+
+    echo nl2br("\n");
+    echo strtoupper($_POST["tahed_kaes"]);
+    echo nl2br("\n");
+    echo strtoupper($_POST["taht_laual"]);
+    echo nl2br("\n");
+
+
+    $andmed_pythonist = Avaleht::loeJSON();
+    echo Form::HTMLandmetabel($andmed_pythonist);
+
 }
-
-// $command = escapeshellcmd('scrabble.py');
-// $output = shell_exec($command);
-// echo $output;
-
-shell_exec("./scrabble.py");
-
-$andmed_pythonist = Avaleht::loeJSON();
-echo Form::HTMLandmetabel($andmed_pythonist);
 
 echo Form::printFooter();
 

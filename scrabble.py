@@ -6,9 +6,9 @@
 # mitu tähte saab sisestada enne lauas olevat tähte ning mitu pärast.
 # Samuti ka seda, kas ja kus asuvad sõnade ja tähtede mitmekordistajad.
 
-import numpy as np
 import collections
 import json
+import sys
 
 
 def sonad_failist():
@@ -77,6 +77,13 @@ def kas_sona_mahub(sona):
     return False
 
 
+def listi_korrutis(jarjend):
+    korrutis = 1
+    for n in jarjend:
+        korrutis *= n
+    return korrutis
+
+
 def sonade_vaartuste_sonastik():
     sonad_vaartused_sonastik = {}
     for sona in sobivad_sonad(tahed_kaes + taht_laual):
@@ -89,13 +96,21 @@ def sonade_vaartuste_sonastik():
                     # kordistaja tähendab tähe kordistajat
                     kordistajad = [1] + kordistajad_parast[:tahti_parast]
                     # Sõna kordistaja puhul on oluline kordistajate korrutis, sest on võimalik, et ühte sõnasse satub mitu kordistajat.
-                    sona_kordistajad = int(np.prod(
-                        [1] + sona_kordistajad_parast[:tahti_parast]))
+
+                    sona_kordistajad = listi_korrutis(
+                        sona_kordistajad_parast[:tahti_parast])
+
+                    # sona_kordistajad = int(np.prod(
+                    #     [1] + sona_kordistajad_parast[:tahti_parast]))
                 else:
                     kordistajad = kordistajad_enne[-1*tahti_enne:] + \
                         [1] + kordistajad_parast[:tahti_parast]
-                    sona_kordistajad = int(np.prod(
-                        sona_kordistajad_enne[-1*tahti_enne:] + [1] + sona_kordistajad_parast[:tahti_parast]))
+
+                    sona_kordistajad = listi_korrutis(
+                        sona_kordistajad_enne[-1*tahti_enne:] + sona_kordistajad_parast[:tahti_parast])
+
+                    # sona_kordistajad = int(np.prod(
+                    #     sona_kordistajad_enne[-1*tahti_enne:] + [1] + sona_kordistajad_parast[:tahti_parast]))
                 # Tähtede eest saadavad punktid
                 punktid = []
                 for taht in sona:
@@ -158,19 +173,10 @@ sona_kordistajad_parast = [int(n) for n in sona_kordistajad_parast0]
 # Leiab kümme suurima punktide arvuga võtit sõnastikust.
 loendur = collections.Counter(sonade_vaartuste_sonastik())
 suurimate_punktidega = loendur.most_common(10)
-for n in suurimate_punktidega:
-    print(f'{n[0]}: {n[1]}')
-print(suurimate_punktidega)
 
 kirjutaJSON(suurimate_punktidega)
 
-# print(dict(suurimate_punktidega))
 
-
-# print(sobivad_sonad(tahed_kaes+taht_laual))
-# print(tahed_kaes+taht_laual)
-# print(tahed_sonastikuna(tahed_kaes+taht_laual))
-# print(sonad_failist())
-
-
-# print(sonade_vaartuste_sonastik())
+for n in suurimate_punktidega:
+    print(f'{n[0]}: {n[1]}')
+print(suurimate_punktidega)
