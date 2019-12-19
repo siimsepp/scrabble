@@ -20,7 +20,7 @@ class Avaleht {
     public static function testSisend($andmed_sisse) {
         $andmed_sisse = trim($andmed_sisse);
         $andmed_sisse = stripslashes($andmed_sisse);
-        $andmed_sisse = htmlentities($andmed_sisse);
+        // $andmed_sisse = htmlentities($andmed_sisse);
         return $andmed_sisse;
     }
 
@@ -76,11 +76,11 @@ if (!isset($_POST['submit'])) {
 
 
 
-    echo nl2br("\n");
-    echo strtoupper($_POST["tahed_kaes"]);
-    echo nl2br("\n");
-    echo strtoupper($_POST["taht_laual"]);
-    echo nl2br("\n");
+    // echo nl2br("\n");
+    // echo strtoupper($_POST["tahed_kaes"]);
+    // echo nl2br("\n");
+    // echo strtoupper($_POST["taht_laual"]);
+    // echo nl2br("\n");
 
 
     $andmed_pythonist = Avaleht::loeJSON();

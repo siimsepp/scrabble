@@ -8,7 +8,6 @@
 
 import collections
 import json
-import sys
 
 
 def sonad_failist():
@@ -177,6 +176,6 @@ suurimate_punktidega = loendur.most_common(10)
 kirjutaJSON(suurimate_punktidega)
 
 
-for n in suurimate_punktidega:
-    print(f'{n[0]}: {n[1]}')
-print(suurimate_punktidega)
+# for n in suurimate_punktidega:
+#     print(f'{n[0]}: {n[1]}')
+# print(suurimate_punktidega)
